@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Crear Cuenta</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header>
+            <a th:href="@{/loginPage}" class="index_link"><img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo"></a>
+
+        </header>
+        <div class="container">
+            <form action="#" th:action="@{/register/processRegistrationForm}"
+            th:object="${newUser}"
+            method="POST" class="signup_form" id="formulario">
+                <h1>Crea tu cuenta</h1><br>
+                <div>
+                    <h4>Nombre de Usuario</h4>
+                    <input type="text" th:field="*{userName}"/>
+                </div>
+                <div th:if="${#fields.hasErrors('userName')}">
+                    <ul>
+                         <li class="error" th:each="err : ${#fields.errors('userName')}" th:text="'El nombre de usuario ' + ${err}" />
+                    </ul>
+                </div>
+                <!--field name -->
+                <div>
+                    <h4>Nombre</h4>
+                    <input type="text" th:field="*{firstName}" />
+
+                </div>
+                <div th:if="${#fields.hasErrors('firstName')}">
+                    <ul>
+                        <li class="error" th:each="err : ${#fields.errors('firstName')}" th:text="'El nombre ' + ${err}" />
+                    </ul>
+                </div>
+
+                <!--field lastname-->
+                <div>
+                    <h4>Apellido</h4>
+                    <input type="text" th:field="*{lastName}"/>
+                </div>
+                <div th:if="${#fields.hasErrors('lastName')}">
+                    <ul>
+                        <li class="error" th:each="err : ${#fields.errors('lastName')}" th:text="'El apellido ' + ${err}" />
+                    </ul>
+                </div>
+
+                <!--field email-->
+                <div>
+                    <h4>Email</h4>
+                    <input type="text" th:field="*{email}"/>
+                </div>
+                <div th:if="${#fields.hasErrors('email')}">
+                    <ul>
+                        <li class="error" th:each="err : ${#fields.errors('email')}" th:text="'El email ' + ${err}" />
+                    </ul>
+                </div>
+
+                <!--field password-->
+                <div>
+                    <h4>Contraseña</h4>
+                    <input type="password" th:field="*{password}" />
+                </div>
+                <div th:if="${#fields.hasErrors('password')}">
+                    <ul>
+                        <li class="error" th:each="err : ${#fields.errors('password')}" th:text="'La contraseña ' + ${err}" />
+                    </ul>
+                </div>
+                <button type="submit" class="btn-registrar">Registrar</button>
+                
+            </form>
+        </div>
+        <footer>
+            <p class="footer_text">Black Wolf Cinema ®</p>
+        </footer>
+    </body>
+    <script src="js/app.js"></script>
+</html>

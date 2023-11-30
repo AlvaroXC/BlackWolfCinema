@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Inicia sesión o registrate.</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header>
+            <img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo">
+        </header>
+        <div class="container">
+                <form action="#" th:action="@{/authenticateTheUser}"
+                method="POST" class="login_form">
+
+                    <div class="error-container" th:if="${param.error}">
+                        <p class="error-login">Usuario o contraseña incorrecto</p>
+                    </div>
+                    <div class="logout-container" th:if="${param.logout}">
+                        <p class="logout">Cerraste sesión</p>
+                    </div>
+
+                    <h1>Inicia Sesion o <a th:href="@{/register/showRegistrationForm}"  class="register">Registrate</a> </h1>
+                    <label>
+                        <h4>Usuario</h4>
+                        <input type="text" name="username" >
+                    </label>
+                    <label>
+                        <h4>Contraseña</h4>
+                        <input type="password" id="password" name="password">
+                    </label>
+                    <button type="submit" class="login_button">Entrar</button>
+                </form>
+        </div>
+        <footer>
+            <p class="footer_text">Black Wolf Cinema ®</p>
+        </footer>
+    </body>
+</html>

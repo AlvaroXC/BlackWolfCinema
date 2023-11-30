@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Recibos entre fechas</title>
+  <!-- Aquí van tus enlaces a CSS, si los tienes -->
+</head>
+<body>
+  <h1>Recibos entre fechas</h1>
+  <form action="#" th:action="@{/receipt/generateReceipt}" method="GET">
+    <label for="startDate">Fecha de inicio:</label>
+    <input type="date" id="startDate" name="startDate">
+
+    <label for="endDate">Fecha de fin:</label>
+    <input type="date" id="endDate" name="endDate">
+
+    <button type="submit">Buscar</button>
+  </form>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID Recibo</th>
+        <th>Fecha</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- Aquí iteramos sobre los recibos obtenidos -->
+    <tr th:each="receipt : ${receipts}">
+      <td th:text="${receipt.idReceipt}"></td>
+      <td th:text="${receipt.receiptDate}"></td>
+      <td th:text="${receipt.total}"></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <button class="button-print">
+    <img src="./img/print.svg" alt="icono de imprimir">
+  </button>
+  <script>
+     const button = document.querySelector(".button-print");
+        button.addEventListener("click", () => {
+          window.print(); 
+        });
+
+        const error = "[[${message}]]";
+        if (error) {
+          setTimeout(() => {
+            alert(error);
+          }, 100);
+        }
+  </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/addmovie.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    
+</head>
+<body>
+    <header>
+        <a th:href="@{/}" class="index_link"><img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo"></a>
+       
+        <nav>
+            <ul class="nav_links">
+                <li><a th:href="@{/}"></a></li>
+                <li class="nav_item"><p class="userName">Hola <span sec:authentication="principal.username"></span></p></li>
+                <li> 
+                    <form action="#" th:action="@{/logout}" method="POST">
+                        <input type="submit" value="Cerrar Sesion" class="cerrar-sesion"/>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <form action="#" th:action="@{/admin/movies/update-movie/{id}(id=*{id})}" class="form-movie" method="POST" th:object="${movie}" enctype="multipart/form-data" >
+        <div>
+            <label for="name">Titulo : </label> 
+            <input type="text" id="name" placeholder="Escriba el titulo" th:field="*{name}">
+        </div>
+
+        <div >
+            <label for="synopsis" class="form-label">Sinopsis : </label>
+            <textarea id="synopsis" placeholder="Escriba la sinopsis" th:field="*{synopsis}"></textarea>
+        </div>
+        <div >
+            <label for="time" class="form-label">Duración : </label>
+            <input type="number" id="time" placeholder="Escriba la duración" th:field="*{duration}"></input>
+        </div>
+        <div>
+            <label for="trailer">Trailer : </label> 
+            <input type="text" id="trailer" placeholder="Digite el trailer" th:field="*{trailer}">
+        </div>
+        <div>
+            <label for="portada">Portada : </label> 
+            <input type="file" name="portada" id="portada" th:field="*{portada}">
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+
+    
+    </form>
+    </div>
+    <footer>
+        <p class="footer_text">Black Wolf Cinema ®</p>
+    </footer>
+
+
+</body>
+</html>

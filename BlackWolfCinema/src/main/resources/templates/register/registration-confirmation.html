@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Registration Confirmation</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="body-modal">
+
+	<div class="content-modal">
+		<h2>User registered successfully!</h2>
+
+		<!-- display first name, last name and email -->
+		<ul>
+			<li th:text="'User name: ' + ${webUser.userName}"></li>
+			<li th:text="'First name: ' + ${webUser.firstName}"></li>
+			<li th:text="'Last name: ' + ${webUser.lastName}"></li>
+			<li th:text="'Email name: ' + ${webUser.email}"></li>
+		</ul>
+		
+		<a th:href="@{/loginPage}">Iniciar Sesión</a>
+	</div>
+	
+	
+	
+	
+</body>
+
+</html>

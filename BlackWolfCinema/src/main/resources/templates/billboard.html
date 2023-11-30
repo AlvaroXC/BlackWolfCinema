@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Cartelera</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header>
+            <a th:href="@{/}" class="index_link"><img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo"></a>
+            <nav>
+                <ul class="nav_links">
+                    <li class="nav_item"><p class="userName">Hola <span sec:authentication="principal.username"></span></p></li>
+                    <li>
+                        <form action="#" th:action="@{/logout}" method="POST">
+                            <input type="submit" value="Cerrar Sesion" class="cerrar-sesion"/>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <style>
+            .role-container{
+                margin: 30px;
+            }
+            .btn-add-movie{
+                background-color: black;
+                padding: 10px;
+            }
+            .role-container ul{
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+            }
+            /* .role-container li{
+                display: flex;
+                justify-content: flex-end;
+            } */
+        </style>
+
+        <div class="role-container" sec:authorize="hasRole('ADMIN')">
+            <ul>
+                <li><a class="btn-add-movie" th:href="@{/admin/listMovies}">Panel de peliculas</a></li>
+                <li><a class="btn-add-movie" th:href="@{/admin/listShows}">Panel de funciones</a></li>
+
+            </ul>
+              
+        </div>
+
+        <style>
+            .movie-container{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .movie-container h2{
+                color: black;
+            }
+        </style>
+       <!-- movie container-->
+        <div class="">
+			<div class="movie-container">
+				<div th:each="movie : ${movies}"
+					th:object="${movie}">
+					<a th:href="@{/movies/{id}(id=*{id})}"
+						style="text-decoration: none;"> 
+                        <img width="300px"
+						th:src="@{/assets/{filename}(filename=*{imagePath})}"
+						th:alt="*{name}"
+                        >
+						<h2 th:text="*{name}"></h2>	
+					</a>
+				</div>
+			</div>
+		</div>
+
+        <!--end movie container -->
+        <footer>
+            <p>Black Wolf Cinema ®</p>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Cartelera</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header>
+            <a th:href="@{/}" class="index_link"><img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo"></a>
+            <nav>
+                <ul class="nav_links">
+                    <li class="nav_item"><a href="upcomingfilms.html">Proximos estrenos</a></li>
+                    <li class="nav_item"><p class="userName">Hola <span sec:authentication="principal.username"></span></p></li>
+                    <li>
+                        <form action="#" th:action="@{/logout}" method="POST">
+                            <input type="submit" value="Cerrar Sesion" class="cerrar-sesion"/>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <h1>Desde billboard admin</h1>
+        
+        
+        <!-- movie container-->
+        <div style="display: flex; flex-direction: column; justify-content: center; margin: 100px;">
+            <div style="margin: 40px; display: flex; justify-content:right; " sec:authorize="hasRole('ADMIN')">
+                <ul>
+                    <style>
+                        .btn-add-movie{
+                            background-color: black;
+                            padding: 10px;
+                            margin: 15px;
+                        }
+                    </style>
+                    <li><a class="btn-add-movie" th:href="@{/admin/movies/add-movie}">Añadir Pelicula</a></li>
+                </ul>
+                  
+            </div>
+
+            <table border>
+                <thead>
+                    <tr>
+                        <th>Portada</th>
+                        <th>Titulo</th>
+                        <th>Sinopsis</th>
+                        <th>Duración</th>
+                        <th>Trailer</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="movie : ${movies}" th:object="${movie}">
+                        <td>
+                           <a th:href="@{/assets/{filename}(filename=*{imagePath})}">
+                              <img width="300px" th:src="@{/assets/{filename}(filename=*{imagePath})}" alt="" >
+                           </a>
+                        </td>
+                        <td>
+                            <p th:text="*{name}"></p>
+                        </td>
+                        <td style="width: 400px;">
+                            <p th:text="*{synopsis}"></p>
+                        </td>
+                        <td>
+                            <p th:text="*{duration}"></p>
+                        </td>
+                        <td>
+                            <p th:text="*{Trailer}"></p>
+                        </td>
+                        <style>
+                            .btn-action-admin{
+                                margin: 10px;
+                            }
+                            .btn-delete{
+                                background-color: red;
+                                padding: 10px;
+                            }
+                            .btn-edit-movie{
+                                padding: 10px;
+                                background-color: deepskyblue;
+                            }
+                        </style>
+
+                        <td>
+                           <a class="btn-action-admin btn-edit-movie" th:href="@{/admin/movies/update-movie/{id}(id=*{id})}">Editar</a>
+                           <a class="btn-action-admin btn-delete"  th:onclick="'deleteMovie(' + *{id} +')'">Eliminar</a>
+                           <form th:id="'deleteMovieForm' + *{id}" th:action="@{/admin/movies/delete-movie/{id}(id=*{id})}" method="POST">
+                           </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+		</div>
+
+        <!--end movie container -->
+        <footer>
+            <p>Black Wolf Cinema ®</p>
+        </footer>
+
+
+        <script>
+            function deleteMovie(id){
+
+        	    if(!confirm("¿Estás seguro de eliminar esta película?")){
+        		    return;
+        	    }
+        	    // get form by id
+                var form = document.getElementById('deleteMovieForm' + id);
+                // send form
+                form.submit();
+            }
+        </script>
+
+    </body>
+</html>
