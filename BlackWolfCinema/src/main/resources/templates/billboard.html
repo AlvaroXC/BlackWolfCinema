@@ -67,14 +67,18 @@
 			<div class="movie-container">
 				<div th:each="movie : ${movies}"
 					th:object="${movie}">
-					<a th:href="@{/movies/{id}(id=*{id})}"
-						style="text-decoration: none;"> 
-                        <img width="300px"
-						th:src="@{/assets/{filename}(filename=*{imagePath})}"
-						th:alt="*{name}"
-                        >
-						<h2 th:text="*{name}"></h2>	
-					</a>
+                    <img width="300px" height="400px"
+                    th:src="@{/assets/{filename}(filename=*{imagePath})}"
+                    th:alt="*{name}"
+                    >
+                    <h2 th:text="*{name}"></h2>	
+                    <div style="margin-top:20px ;">
+                        <a th:href="@{/movies/{id}(id=*{id})}"
+                            style="text-decoration: none;
+                            padding: 10px 30px; border-radius: 10px; background-color: #1A2C50;"> 
+                            Ver más
+                        </a>
+                    </div>
 				</div>
 			</div>
 		</div>

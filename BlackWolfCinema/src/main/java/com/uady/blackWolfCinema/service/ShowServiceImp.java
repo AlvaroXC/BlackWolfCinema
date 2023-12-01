@@ -1,52 +1,47 @@
 package com.uady.blackWolfCinema.service;
 
-import com.uady.blackWolfCinema.dao.ShowRepository;
+import com.uady.blackWolfCinema.dao.ShowDao;
 import com.uady.blackWolfCinema.model.Show;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ShowServiceImp implements ShowService {
 
-    private ShowRepository showRepository;
+    private ShowDao showDao;
 
     // Constructor for dependency injection
     @Autowired
-    public ShowServiceImp(ShowRepository theShowRepository) {
-        showRepository = theShowRepository;
+    public ShowServiceImp(ShowDao theShowDao) {
+        showDao = theShowDao;
     }
 
     // Get all shows from the repository
     @Override
     public List<Show> findAll() {
-        return showRepository.findAll();
+        return showDao.getAll();
     }
 
     // Get a specific show by its ID
     @Override
     public Show findById(int theId) {
-        Optional<Show> result = showRepository.findById(theId);
-        Show theShow = null;
-        if (result.isPresent()) {
-            // If the show is found, gets it
-            theShow = result.get();
-        } else {
-            // If the show is not found, throw a runtime exception
-            throw new RuntimeException("No se encontro el show con el id: " + theId);
-        }
-        return theShow;
+        return showDao.findById(theId);
     }
 
     @Override
-    public Show save(Show theShow) {
-        return showRepository.save(theShow);
+    public void save(Show theShow) {
+        showDao.save(theShow);
     }
 
     @Override
-    public void deleteById(int theId) {
-        showRepository.deleteById(theId);
+    public void deleteById(int showId) {
+        showDao.deleteById(showId);
+    }
+
+    @Override
+    public List<Show> findShowsByMovieId(int movieId) {
+        return showDao.findShowsByMovieId(movieId);
     }
 }

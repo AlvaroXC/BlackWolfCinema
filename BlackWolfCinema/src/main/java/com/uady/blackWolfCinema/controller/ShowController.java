@@ -82,7 +82,7 @@ public class ShowController {
     @GetMapping("shows/delete")
     public String delete(@RequestParam("showId") int theId, Model theModel) {
         showService.deleteById(theId);
-        return "redirect:/admin/listShow";
+        return "redirect:/admin/listShows";
     }
 
     // Saves a show (add or update)
@@ -98,7 +98,7 @@ public class ShowController {
         theShow.setCinemaRoom(cinemaRoom);
         // Save the show
         showService.save(theShow);
-        return "redirect:/admin/listShow";
+        return "redirect:/admin/listShows";
     }
 
 }

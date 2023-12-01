@@ -9,7 +9,9 @@ import java.util.List;
 public interface ShowService {
     List<Show> findAll();
     Show findById(int theId);
-    Show save(Show theShow);
-    void deleteById(int theId);
+    void save(Show theShow);
+    void deleteById(int showId);
+    List<Show> findShowsByMovieId(int movieId);
+
 
 }

@@ -28,18 +28,11 @@ public class HomeController {
 	@Autowired
 	private ShowService showService;
 	@Autowired
-	CinemaRoomService cinemaRoomService;
+	private CinemaRoomService cinemaRoomService;
 
     @GetMapping("") 
 	public ModelAndView showMovieswithShows() {
-		Movie movie;
-		List<Movie> movies = new ArrayList<>();
-
-		List<Show> shows = showService.findAll();
-		for(Show show: shows){
-			movie= movieService.findById(show.getMovie().getId());
-			movies.add(movie);
-		}
+		List<Movie> movies = movieService.findAll();
 		return new ModelAndView("billboard")
 						.addObject("movies",movies);
 	}
@@ -50,7 +43,16 @@ public class HomeController {
 		return new ModelAndView("movie-info").addObject("movie",movie);
 	}
 
-	    // Initiates the ticket purchase process
+	@GetMapping("/show/{movieId}")
+    public String getMovieShows(@PathVariable int movieId, Model model){
+        List<Show> shows = showService.findShowsByMovieId(movieId);
+        model.addAttribute("shows", shows);
+        Movie movie = movieService.findById(movieId);
+		model.addAttribute("movie", movie);
+        return "show-movie";
+    }
+
+	// Initiates the ticket purchase process
     @GetMapping("/comprarBoletos")
     public String comprarBoletos(@RequestParam("showId") int showId,
                                  @RequestParam("cinemaRoomId") int cinemaRoomId,
