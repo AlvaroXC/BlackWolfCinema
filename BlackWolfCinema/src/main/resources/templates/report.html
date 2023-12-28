@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+  <style>
+    @media print{
+      .button-print{
+        display: none;
+      }
+    }
+
+    .report-table{
+      border-spacing: 0;
+      width: 50%;
+      border: 1px solid #1A2C50;
+    }
+
+    .report-table th{
+      border: 1px solid #1A2C50;
+    }
+    
+    .report-table tr, td{
+      border: 1px solid #1A2C50;
+      text-align: center;
+    }
+
+  </style>
+
+  <header>
+    <a th:href="@{/}" class="index_link"><img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo"></a>
+  </header>
+    
+  <div>
+    <h1 style="text-align: center;" >Reporte de Ventas</h1>  
+    <h3 style="text-align: center;">Black Wolf Cinema</h3>
+    <table align="center" class="report-table">
+      <thead>
+        <tr>
+          <th>N° de recibo</th>
+          <th>Fecha</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+      <!-- Aquí iteramos sobre los recibos obtenidos -->
+      <tr th:each="receipt : ${receipts}">
+        <td th:text="${receipt.idReceipt}"></td>
+        <td th:text="${receipt.receiptDate}"></td>
+        <td th:text="${receipt.total}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="button-print">
+    <img th:src="@{/img/print.svg}" alt="icono de imprimir">
+  </button>
+  <footer>
+    <p class="footer_text">Black Wolf Cinema ®</p>
+  </footer>
+  <script>
+     const button = document.querySelector(".button-print");
+        button.addEventListener("click", () => {
+          window.print(); 
+        });
+
+        const error = "[[${message}]]";
+        if (error) {
+          setTimeout(() => {
+            alert(error);
+          }, 100);
+        }
+  </script>
+</body>
+</html>

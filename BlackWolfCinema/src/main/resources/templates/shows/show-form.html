@@ -5,33 +5,67 @@
     <title>Show Directory</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>Save Show</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Guardar Función</title>
 </head>
 <body>
-<div class="container">
-    <h3>Show Directory</h3>
-    <hr>
-    <p class="h4 mb-4">Save show</p>
-    <form action="#" th:action="@{/admin/shows/save}"
-          th:object="${show}" method="POST">
-        <input type="hidden" th:field="*{ShowId}">
-        <input type="date" th:field="*{showDate}" class="form-control mb-4 w-25" placeholder="Show Date">
-        <input type="time" th:field="*{showHour}"
-               class="form-control mb-4 w-25" placeholder="Show Hour">
-        <label for="movie">Selecciona una pelicula</label>
-        <select id="movie" name="movies">
-            <option th:each="tempMovie: ${movies}" th:value="${tempMovie.id}" th:text="${tempMovie.name}"></option>
-        </select>
-        <label for="cinemaRoom">Selecciona una sala</label>
-        <select id="cinemaRoom" name="cinemaRooms">
-            <option th:each="tempCinemaRoom: ${cinemaRooms}" th:value="${tempCinemaRoom.cinemaRoomId}" th:text="${tempCinemaRoom.cinemaRoomId}"></option>
-        </select>
-        <button type="submit" class="btn btn-info col-2">Save</button>
-    </form>
-    <hr>
-    <a th:href="@{/admin/listShows}">Back to Shows List </a>
+    <header>
+        <a th:href="@{/}" class="index_link"><img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo"></a>
+       
+        <nav>
+            <ul class="nav_links">
+                <li><a th:href="@{/}"></a></li>
+                <li class="nav_item"><p class="userName">Hola <span sec:authentication="principal.username"></span></p></li>
+                <li> 
+                    <form action="#" th:action="@{/logout}" method="POST">
+                        <input type="submit" value="Cerrar Sesion" class="cerrar-sesion"/>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-</div>
+    <h3 style="margin-top: 10px; font-size: 17.5px;">Agrega función</h3>
+    <hr>
+    <div class="container">
+        <form action="#" th:action="@{/admin/shows/save}"
+            th:object="${show}" method="POST">
+            <input type="hidden" th:field="*{ShowId}">
+            <input type="date" th:field="*{showDate}" class="form-control mb-4 w-25" placeholder="Show Date">
+            <div th:if="${#fields.hasErrors('showDate')}">
+                <ul>
+                     <li class="error" th:each="err : ${#fields.errors('showDate')}" th:text="${err}" />
+                </ul>
+            </div>
+            <input type="time" th:field="*{showHour}"
+                class="form-control mb-4 w-25" placeholder="Show Hour">
+            <div th:if="${#fields.hasErrors('showHour')}">
+                <ul>
+                    <li class="error" th:each="err : ${#fields.errors('showHour')}" th:text="${err}" />
+                </ul>
+            </div>
+            <label for="movie">Selecciona una pelicula</label>
+            <select id="movie" name="movies">
+                <option th:each="tempMovie: ${movies}" th:value="${tempMovie.id}" th:text="${tempMovie.name}"></option>
+            </select>
+            <label for="cinemaRoom">Selecciona una sala</label>
+            <select id="cinemaRoom" name="cinemaRooms">
+                <option th:each="tempCinemaRoom: ${cinemaRooms}" th:value="${tempCinemaRoom.cinemaRoomId}" th:text="${tempCinemaRoom.cinemaRoomId}"></option>
+            </select>
+            <div style="display: flex; gap:10px ;">
+                <a style="width: 150px; height: 25px; background-color: #1A2C50; padding: 5px; border-radius: 5px;" th:href="@{/admin/listShows}">Regresar</a>
+                <button type="submit" class="btn btn-info col-2 bg-azul fg-blanco">Guardar</button>
+            </div>
+        </form>
+        <hr>
+
+    </div>
+
+    
+
+    <footer>
+        <p>Black Wolf Cinema ®</p>
+    </footer>
 </body>
 </html>

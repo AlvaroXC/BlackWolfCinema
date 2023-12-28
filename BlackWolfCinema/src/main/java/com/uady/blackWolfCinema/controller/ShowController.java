@@ -19,7 +19,7 @@ import com.uady.blackWolfCinema.service.MovieService;
 import com.uady.blackWolfCinema.service.ShowService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("")
 public class ShowController {
 
     // Services for Show, Movie, and CinemaRoom
@@ -34,17 +34,18 @@ public class ShowController {
         showService = theShowService;
     }
 
-    // Retrieves details of a specific show
-    @GetMapping("/show/{showId}")
-    public Show getShowDetails(@PathVariable int showId){
-        Show theShow = showService.findById(showId);
-        return theShow;
+    @GetMapping("/show/{movieId}")
+    public String getMovieShows(@PathVariable int movieId, Model model){
+        List<Show> shows = showService.findShowsByMovieId(movieId);
+        model.addAttribute("shows", shows);
+        Movie movie = movieService.findById(movieId);
+		model.addAttribute("movie", movie);
+        return "show-movie";
     }
 
-
     // Displays the show schedule (cartelera)
-    @GetMapping("/listShows")
-    public String showAdminPanelShow(Model model) {
+    @GetMapping("/admin/listShows")
+    public String showAdminPanel(Model model) {
         // Fetch all shows
         List<Show> shows = showService.findAll();
         // Add shows to the model
@@ -53,8 +54,8 @@ public class ShowController {
     }
 
     // Displays the form for adding a new show
-    @GetMapping("/shows/add-show")
-    public String showFormForAddShow(Model theModel) {
+    @GetMapping("/admin/shows/add-show")
+    public String showFormToRegister(Model theModel) {
         // Create a new show
         Show theShow = new Show();
         // Add the show to the Spring model
@@ -69,30 +70,30 @@ public class ShowController {
     }
 
     // Displays the form for updating an existing show
-    @GetMapping("shows/update-show")
-    public String showFormForUpdateShow(@RequestParam("showId") int theId, Model theModel) {
+    @GetMapping("/admin/shows/update-show")
+    public String showFormToUpdate(@RequestParam("showId") int showId, Model theModel) {
         // Get the show from the service
-        Show theShow = showService.findById(theId);
+        Show theShow = showService.findById(showId);
         // Add the show to the model to populate the form
         theModel.addAttribute("show", theShow);
         return "shows/show-form";
     }
 
     // Deletes a show
-    @GetMapping("shows/delete")
-    public String delete(@RequestParam("showId") int theId, Model theModel) {
-        showService.deleteById(theId);
+    @GetMapping("/admin/shows/delete")
+    public String delete(@RequestParam("showId") int showId, Model theModel) {
+        showService.deleteById(showId);
         return "redirect:/admin/listShows";
     }
 
     // Saves a show (add or update)
-    @PostMapping("shows/save")
+    @PostMapping("/admin/shows/save")
     public String save(@ModelAttribute("show") Show theShow,
                        @RequestParam("cinemaRooms") int cinemaRoomId,
-                       @RequestParam("movies") int idmovie) {
+                       @RequestParam("movies") int movieId) {
         // Fetch cinema room and movie based on IDs
         CinemaRoom cinemaRoom = cinemaRoomService.findRoomById(cinemaRoomId);
-        Movie movie = movieService.findById(idmovie);
+        Movie movie = movieService.findById(movieId);
         // Set movie and cinema room for the show
         theShow.setMovie(movie);
         theShow.setCinemaRoom(cinemaRoom);

@@ -23,13 +23,7 @@ body {
 li{
     list-style-type: none;
 }
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    height: 80%;
-}
+
 footer {
     background-color: #4F6074;
     position: absolute;
@@ -42,8 +36,6 @@ footer {
 }
 a {
     font-family: "Montserrat", sans-serif;
-    font-weight: 800;
-    font-size: 16px;
     color:#FFFFFF;
     text-decoration: none;
 }
@@ -187,6 +179,7 @@ input{
 form {
     display: flex;
     flex-direction: column;
+    gap: 10px;
     text-align: center;
 }
 
@@ -220,7 +213,6 @@ slider-box {
 }
 
 .button-print {
-    position: fixed;
     bottom: 4rem;
     right: 10rem;
 }
@@ -604,4 +596,50 @@ input:hover {
     gap: 20px;
     justify-content: center;
     padding: 0;
+}
+
+
+.bg-rojo {
+    background-color: #e62046;
+}
+
+.bg-azul {
+    background-color: #1A2C50;
+}
+
+.fg-blanco {
+    color: #ffffff;
+}
+
+.fg-negro {
+    color: #000000;
+}
+
+#th-azul {
+    background-color: #1A2C50;
+    color: #ffffff;
+}
+
+.report-container{
+    text-align: center;
+    justify-content: center;
+    margin: 15px;
+}
+.report-table{
+    border-spacing: 0;
+    width: 50%;
+    border: 1px solid #1A2C50;
+    margin-top: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.report-table th {
+    background-color: #1A2C50; 
+    color: white; 
+    border: 1px solid #1A2C50;
+}
+.button-print{
+    margin-top: 5%;
+    height: 35px;
 }

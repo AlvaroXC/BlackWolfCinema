@@ -22,7 +22,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/register")
 public class RegisterController {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
+	/*	
+		Logger instance to record events and messages during the controller's execution.
+		It's initialized with the instance associated with the current class name.
+	*/
+	private Logger logger = Logger.getLogger(getClass().getName());
+
     private UserService userService;
 
 	@Autowired
@@ -31,16 +36,23 @@ public class RegisterController {
     }
 
 
+	/* 
+		Configures data binding rules for incoming request data to the controller.
+		This method, annotated with @InitBinder, preprocesses web request data 
+		before it is sent to the controller methods for handling.
+	*/
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
-		
+		// Trims white spaces from incoming Strings to empty ones.
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-		
+		// Registers the StringTrimmerEditor to the data binder.
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-	}	
+	}
+
+		
 	
 	@GetMapping("/showRegistrationForm")
-	public String showMyLoginPage(Model theModel) {
+	public String showFormToRegister(Model theModel) {
 		
 		theModel.addAttribute("newUser", new UserValidation());
 		
@@ -48,7 +60,7 @@ public class RegisterController {
 	}
 
 	@PostMapping("/processRegistrationForm")
-	public String processRegistrationForm(
+	public String processRegister(
 			@Valid @ModelAttribute("newUser") UserValidation theNewUser,
 			BindingResult theBindingResult,
 			HttpSession session, Model theModel) {

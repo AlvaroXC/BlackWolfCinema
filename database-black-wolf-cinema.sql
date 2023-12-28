@@ -1,1 +1,69 @@
-Create database black_wolf_cinema;Use black_wolf_cinema;CREATE TABLE `role` (  `idrole` int NOT NULL AUTO_INCREMENT,  `name` varchar(45) NOT NULL,  PRIMARY KEY (`idrole`)) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ciINSERT INTO role(name) VALUES (ÔROLE_ADMINÕ);CREATE TABLE `users` (  `username` varchar(50) NOT NULL,  `name` varchar(45) DEFAULT NULL,  `lastname` varchar(45) DEFAULT NULL,  `email` varchar(100) DEFAULT NULL,  `password` varchar(100) DEFAULT NULL,  `enabled` bit(1) DEFAULT NULL,  `idrole` int DEFAULT NULL,  PRIMARY KEY (`username`),  KEY `idrole_idx` (`idrole`),  CONSTRAINT `idrole` FOREIGN KEY (`idrole`) REFERENCES `role` (`idrole`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ciCREATE TABLE `movie` (  `idmovie` int NOT NULL AUTO_INCREMENT,  `name` varchar(100) NOT NULL,  `synopsis` varchar(255) NOT NULL,  `duration_min` int NOT NULL,  `trailer` varchar(100) NOT NULL,  `duration` int DEFAULT NULL,  `image_path` varchar(255) DEFAULT NULL,  PRIMARY KEY (`idmovie`)) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ciCREATE TABLE `cinema_room` (  `idcinema_room` int NOT NULL AUTO_INCREMENT,  `total_rows` int NOT NULL,  `total_columns` int NOT NULL,  `total_seats` int NOT NULL,  `seat_price` int NOT NULL,  PRIMARY KEY (`idcinema_room`)) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ciCREATE TABLE `receipt` (  `Receipt_Id` int NOT NULL AUTO_INCREMENT,  `Receipt_Date` date NOT NULL,  `Total` float NOT NULL,  `username` varchar(45) NOT NULL,  PRIMARY KEY (`Receipt_Id`),  KEY `username_idx` (`username`),  CONSTRAINT `FK4tynu2g5uiteaccgnarqyp355` FOREIGN KEY (`username`) REFERENCES `users` (`username`),  CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `users` (`username`)) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ciCREATE TABLE `ticket` (  `idticket` int NOT NULL AUTO_INCREMENT,  `seat` varchar(255) DEFAULT NULL,  `idshow` int DEFAULT NULL,  PRIMARY KEY (`idticket`),  UNIQUE KEY `UK_k4sm1axpx39yqe09pgpl1vh51` (`idshow`),  CONSTRAINT `FKpm096b7bbo67pv2mc7dr4onws` FOREIGN KEY (`idshow`) REFERENCES `movie_show` (`idshow`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ciCREATE TABLE `movie_show` (  `idshow` int NOT NULL AUTO_INCREMENT,  `date` date DEFAULT NULL,  `hour` time(6) DEFAULT NULL,  `idcinema_room` int DEFAULT NULL,  `idmovie` int DEFAULT NULL,  PRIMARY KEY (`idshow`),  KEY `FKta5wav74mj44vibk2nil8tn7h` (`idcinema_room`),  KEY `FK6ureg8340q5jn2r0npcq4k0ar` (`idmovie`),  CONSTRAINT `FK6ureg8340q5jn2r0npcq4k0ar` FOREIGN KEY (`idmovie`) REFERENCES `movie` (`idmovie`),  CONSTRAINT `FKta5wav74mj44vibk2nil8tn7h` FOREIGN KEY (`idcinema_room`) REFERENCES `cinema_room` (`idcinema_room`)) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+Create database black_wolf_cinema;
+Use black_wolf_cinema;
+
+CREATE TABLE `role` (
+  `idrole` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`idrole`)
+) ENGINE=InnoDB;
+
+INSERT INTO role(name) VALUES ('ROLE_ADMIN');
+
+CREATE TABLE `users` (
+  `username` varchar(50) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `lastname` varchar(45) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `enabled` bit(1) DEFAULT NULL,
+  `idrole` int DEFAULT NULL,
+  PRIMARY KEY (`username`),
+  FOREIGN KEY (`idrole`) REFERENCES `role` (`idrole`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `movie` (
+  `idmovie` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `synopsis` varchar(600) NOT NULL,
+  `duration_min` int NOT NULL,
+  `trailer` varchar(100) NOT NULL,
+  `image_path` varchar(255) NOT NULL,
+  PRIMARY KEY (`idmovie`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `cinema_room` (
+  `idcinema_room` int NOT NULL AUTO_INCREMENT,
+  `total_rows` int NOT NULL,
+  `total_columns` int NOT NULL,
+  `total_seats` int NOT NULL,
+  `seat_price` int NOT NULL,
+  PRIMARY KEY (`idcinema_room`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `receipt` (
+  `Receipt_Id` int NOT NULL AUTO_INCREMENT,
+  `Receipt_Date` date NOT NULL,
+  `Total` float NOT NULL,
+  PRIMARY KEY (`Receipt_Id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `movie_show` (
+  `idshow` int NOT NULL AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
+  `hour` time(6) DEFAULT NULL,
+  `idcinema_room` int DEFAULT NULL,
+  `idmovie` int DEFAULT NULL,
+  PRIMARY KEY (`idshow`),
+  FOREIGN KEY (`idmovie`) REFERENCES `movie` (`idmovie`),
+  FOREIGN KEY (`idcinema_room`) REFERENCES `cinema_room` (`idcinema_room`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `ticket` (
+  `idticket` int NOT NULL AUTO_INCREMENT,
+  `seat` varchar(45) NOT NULL,
+  `idshow` int NOT NULL,
+  `idreceipt` int NOT NULL,
+  PRIMARY KEY (`idticket`),
+  FOREIGN KEY (`idreceipt`) REFERENCES `receipt` (`Receipt_Id`),
+  FOREIGN KEY (`idshow`) REFERENCES `movie_show` (`idshow`)
+) ENGINE=InnoDB;

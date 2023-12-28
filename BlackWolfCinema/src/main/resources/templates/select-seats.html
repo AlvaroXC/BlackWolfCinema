@@ -5,68 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <title>Selecciona tus asientos</title>
-    <script th:inline="javascript">
-        var availableSeatImagePath = /*[[ @{/img/availableSeat.png} ]]*/ '';
-        var selectedSeatImagePath = /*[[ @{/img/selectedSeat.png} ]]*/ '';
-    </script>
 </head>
 <body>
 <header>
-    <img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo">
+    <a th:href="@{/}">
+        <img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo">
+    </a>
     <nav>
         <ul class="nav_links">
-            <li class="nav_item"><a href="upcomingfilms.html">Proximos estrenos</a></li>
             <li class="nav_item"><p class="userName">Hola <span sec:authentication="principal.username"></span></p></li>
             <li>
-                <!-- <form action="#" th:action="@{/logout}" method="POST">
+                <form action="#" th:action="@{/logout}" method="POST">
                     <input type="submit" value="Cerrar Sesion" class="cerrar-sesion"/>
-                </form> -->
+                </form>
             </li>
         </ul>
     </nav>
 </header>
+
+<style>
+    input[type=checkbox]{
+        display: none;
+    }
+
+    .asientos{
+        margin: 30px 0;
+    }
+
+    .contenedor-pantalla{
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pantalla{
+        border-radius: 10px;
+        height: 10px;
+        background-color: #d8d8d8;
+        width: 40%;
+    }
+
+</style>
 
 <div class="contenedorAsientos">
     <br>
     <h1>Selecciona tus asientos</h1>
     <p class="">Da click en el asiento deseado</p>
 
+    <div class="contenedor-pantalla">
+        <div class="pantalla">
+        </div>
+    </div>
     <div class="asientos">
 
     </div>
     <form action="#" th:action="@{/tickets/save}" th:object="${show}" method="POST">
         <input type="hidden" th:field="*{showId}">
-        <table id="mytable">
+        <table style="display: none;" id="mytable">
         </table>
+        <div class="screen"></div>
+        <div class="button">
         <button type="submit" class="btn btn-info col-2">Continuar</button>
+        </div>
     </form>
 </div>
-<div class="screen"></div>
 <br>
 <br>
+<footer>
+    <p>Black Wolf Cinema ®️</p>
+</footer>
 <script th:inline="javascript">
     var cinemaRoomId = [[${show.cinemaRoom.cinemaRoomId}]];
-
-
-</script>
-
-<script th:src="@{/js/cinemaRoom.js}">
-    console.log(${show.cinemaRoom.cinemaRoomId})
+    var showId = [[${show.showId}]];
 
 </script>
 
-
-<!--
-<script th:src="@{/js/cinemaRoom.js}"></script>
-<script th:inline="javascript">
-    var cinemaRoomId = /*[[${cinemaRoomId}]]*/;
-    cargarSala(cinemaRoomId);
-
-</script>!-->
+<script th:src="@{/js/selectSeats.js}"></script>
 
 </body>
 
-<footer>
-    <p>Black Wolf Cinema ®</p>
-</footer>
 </html>

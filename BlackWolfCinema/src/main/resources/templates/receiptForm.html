@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Reporte</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <header>
+    <a th:href="@{/}" class="index_link"><img class="logo" th:src="@{/img/blackWolfHorizontal.png}" alt="logo"></a>
+    <nav>
+        <ul class="nav_links">
+            <li class="nav_item"><p class="userName">Hola <span sec:authentication="principal.username"></span></p></li>
+            <li>
+                <form action="#" th:action="@{/logout}" method="POST">
+                    <input type="submit" value="Cerrar Sesion" class="cerrar-sesion"/>
+                </form>
+            </li>
+        </ul>
+    </nav>
+  </header>
+
+  <style>
+    .receipt-form-container{
+      display: flex;
+      justify-content: center;
+    }
+    .receipt-form{
+      display: flex;
+      justify-content: center;
+      width: 60%;
+    }
+
+    .receipt-form button{
+      margin-top: 10px;
+    }
+
+  </style>
+
+  <h1 style="margin: 20px 0;">Reporte de ventas</h1>
+  <div class="receipt-form-container">
+    <form class="receipt-form" action="#" th:action="@{/admin/receipt/generateReceipt}" method="GET">
+      <label for="startDate">Fecha de inicio:</label>
+      <input type="date" id="startDate" name="startDate">
+  
+      <label for="endDate">Fecha de fin:</label>
+      <input type="date" id="endDate" name="endDate">
+  
+      <button type="submit">Generar Reporte</button>
+    </form>
+  </div>
+</body>
+</html>

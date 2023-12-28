@@ -4,11 +4,12 @@ import com.uady.blackWolfCinema.model.Ticket;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
 
+@Service
 public interface TicketService {
-    List<Ticket> findAll();
-    Ticket findById(int theId);
-    Ticket save(Ticket theTicket);
-    void deleteById(int theId);
+    List<Ticket> findAllByShow(int showId);
+
+    // Ticket findById(int theId);
+    void save(Ticket theTicket);
+    // void deleteById(int theId);
 }

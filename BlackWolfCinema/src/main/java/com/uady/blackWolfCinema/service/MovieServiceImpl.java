@@ -33,7 +33,6 @@ public class MovieServiceImpl implements MovieService{
     @Override
     public void save(MovieValidation movieValidation) {
 
-        System.out.println("Dentro de guardar pelicula: " + movieValidation.getTrailer());
         Movie movie = new Movie();
         movie.setName(movieValidation.getName());
         movie.setSynopsis(movieValidation.getSynopsis());

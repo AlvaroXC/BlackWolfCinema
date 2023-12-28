@@ -9,6 +9,7 @@ import java.util.List;
 public interface ReceiptService {
 
     public List<Receipt> getReceiptsBetweenDates(LocalDate startDate, LocalDate endDate);
-    void saveReceipt(Receipt receiptToSave, String username);
+    void saveReceipt(Receipt receiptToSave);
+    Receipt getReceiptById(int id);
 
 }

@@ -25,43 +25,112 @@
         </header>
 
         <style>
-            .role-container{
-                margin: 30px;
-            }
-            .btn-add-movie{
-                background-color: black;
-                padding: 10px;
-            }
-            .role-container ul{
-                display: flex;
-                justify-content: flex-end;
-                gap: 10px;
-            }
-            /* .role-container li{
-                display: flex;
-                justify-content: flex-end;
-            } */
-        </style>
 
-        <div class="role-container" sec:authorize="hasRole('ADMIN')">
-            <ul>
-                <li><a class="btn-add-movie" th:href="@{/admin/listMovies}">Panel de peliculas</a></li>
-                <li><a class="btn-add-movie" th:href="@{/admin/listShows}">Panel de funciones</a></li>
-
-            </ul>
-              
-        </div>
-
-        <style>
             .movie-container{
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+                margin: 30px 0;
+            }
+
+            @media (min-width: 768px) {
+                .movie-container{
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 30px;
+                    margin-bottom: 30px;
+                }
+            }
+
+            @media (min-width: 1024px){
+                .movie-container{
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 40px;
+                    margin-bottom: 30px;
+                }
             }
 
             .movie-container h2{
                 color: black;
             }
+
+            @media (min-width:1024px) {
+                .role-container button {
+                    display: none;
+                }
+            }
+            .btn-admin{
+                background-color: black;
+                padding: 10px;
+            }
+            
+            .abrir-menu, .cerrar-menu{
+                display: block;
+            }
+
+            .role-container{
+                display: none;
+            }
+
+            .hidden{
+                display: none;
+            }
+
+            .visible{
+                display: block;
+            }
+
+            .role-container ul{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            
+            @media (min-width:768px ){
+                .role-container{
+                    display: block;
+                    margin: 30px;
+                }
+                .role-container ul{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    gap: 10px;
+                }
+
+                .role-container a{
+                    text-decoration: none;
+                    padding: 10px 30px; 
+                    border-radius: 10px; 
+                    background-color: #1A2C50;
+                }
+
+                .abrir-menu,.cerrar-menu{
+                    display: none;
+                }
+            }
+
         </style>
+
+        <div class="nav-admin" style="margin: 20px 0;" sec:authorize="hasRole('ADMIN')">
+            <div style="display: flex; justify-content: center;">
+                <button class="abrir-menu">
+                    Menu 
+                </button>
+            </div>
+            <nav id="nav-admin" class="role-container" >
+                <ul>
+                    <li><a class="btn-admin" th:href="@{/admin/listMovies}">Panel de peliculas</a></li>
+                    <li><a class="btn-admin" th:href="@{/admin/listShows}">Panel de funciones</a></li>
+                    <li><a class="btn-admin" th:href="@{admin/receipt}">Reporte</a></li>
+                    <li> <button class="cerrar-menu">Cerrar</button></li>
+    
+                </ul>
+            </nav>
+              
+        </div>
        <!-- movie container-->
         <div class="">
 			<div class="movie-container">
@@ -87,5 +156,24 @@
         <footer>
             <p>Black Wolf Cinema ®</p>
         </footer>
+
+        <script>
+            const navAdmin= document.querySelector('#nav-admin');
+            const btnAbrir = document.querySelector('.abrir-menu');
+            const btnCerrar = document.querySelector('.cerrar-menu');
+
+            btnAbrir.addEventListener('click', ()=>{
+                btnAbrir.classList.add('hidden')
+                navAdmin.classList.add('visible')
+            })
+
+            btnCerrar.addEventListener('click', ()=>{
+                btnAbrir.classList.remove('hidden')
+                navAdmin.classList.remove('visible')
+            })
+
+
+        </script>
+
     </body>
 </html>

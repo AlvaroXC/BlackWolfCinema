@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,17 +30,20 @@ public class Receipt {
     @Column(name = "Total")
     private float total;
 
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
-    })
-    @JoinColumn(name ="username" )
-    private User user;
+    @OneToMany(mappedBy = "receipt")
+    private List<Ticket> tickets;
 
-    public Receipt(LocalDate receiptDate, float total, User user) {
+    public Receipt(LocalDate receiptDate, float total) {
         this.receiptDate = receiptDate;
         this.total = total;
-        this.user = user;
     }
 
+    public void add(Ticket ticket){
+        if(tickets==null){
+            tickets= new ArrayList<>();
+        }
+        tickets.add(ticket);
+        ticket.setReceipt(this);
+    }
 
 }

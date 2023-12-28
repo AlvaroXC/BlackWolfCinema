@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -26,12 +27,23 @@ public class Ticket {
     @JoinColumn(name = "idshow", referencedColumnName = "idshow")
     private Show show;
 
+    @ManyToOne
+    @JoinColumn(name = "idreceipt")
+    private Receipt receipt;
+
     public Ticket() {
     }
 
     public Ticket(String seat, Show show) {
         this.seat = seat;
         this.show = show;
+    }
+
+    public Receipt getReceipt() {
+        return receipt;
+    }
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
     }
 
     public int getTicketId() {

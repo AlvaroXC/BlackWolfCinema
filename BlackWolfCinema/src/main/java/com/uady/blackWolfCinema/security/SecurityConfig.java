@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 
 @Configuration
-public class DemoSecurityConfig {
+public class SecurityConfig {
 
 
     @Bean
@@ -22,10 +22,10 @@ public class DemoSecurityConfig {
     //authenticationProvider bean definition
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserService userService) {
-        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService); //set the custom user details service
-        auth.setPasswordEncoder(passwordEncoder()); //set the password encoder - bcrypt
-        return auth;
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService); // Set custom user details service
+        authProvider.setPasswordEncoder(passwordEncoder()); // Set password encoder - bcrypt
+        return authProvider;
     }
 
     @Bean 

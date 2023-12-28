@@ -43,4 +43,19 @@ public class ReceiptDaoImpl implements ReceiptDao {
         entityManager.merge(receipt);
     }
 
+    @Override
+    public Receipt findReceiptByid(int id) {
+        TypedQuery<Receipt> theQuery = entityManager.createQuery("from Receipt where idReceipt=:idReceipt", Receipt.class);
+		theQuery.setParameter("idReceipt", id);
+
+		Receipt theReceipt = null;
+		try {
+			theReceipt = theQuery.getSingleResult();
+		} catch (Exception e) {
+			theReceipt = null;
+		}
+
+		return theReceipt;
+    }
+
 }

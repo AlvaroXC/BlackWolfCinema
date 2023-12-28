@@ -14,9 +14,6 @@ import com.uady.blackWolfCinema.dao.UserDao;
 import com.uady.blackWolfCinema.model.User;
 import com.uady.blackWolfCinema.validation.UserValidation;
 
-
-
-
 @Service
 public class UserServiceImpl implements UserService{
     private UserDao userDao;
@@ -48,10 +45,7 @@ public class UserServiceImpl implements UserService{
 		user.setName(userValidation.getFirstName());
 		user.setLastname(userValidation.getLastName());
 		user.setEmail(userValidation.getEmail());
-
-		// give user default role of "employee"
-		user.setRole(roleDao.findRoleByName("ROLE_CUSTOMER"));
-		// save user in the database
+		user.setRole(roleDao.findRoleByName("ROLE_ADMIN"));
 		userDao.save(user);
 	}
 

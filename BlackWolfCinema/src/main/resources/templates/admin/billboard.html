@@ -24,26 +24,52 @@
                 </ul>
             </nav>
         </header>
-        <h1>Desde billboard admin</h1>
+        <h1>Panel de peliculas</h1>
+        <style>
+            .btn-add-movie{
+                text-decoration: none;
+                padding: 10px 30px; 
+                border-radius: 10px; 
+                background-color: #1A2C50;
+            }
+            .movie-table{
+                border-spacing: 0;
+                border: 1px solid #1A2C50;
+            }
+
+            .movie-table td{
+                border: 1px solid #1A2C50;
+            }
+
+            .movie-table th {
+                background-color: #1A2C50; 
+                color: white; 
+                border: 1px solid #1A2C50;
+            }
+            .btn-action-admin{
+                margin: 10px;
+            }
+            .btn-delete{
+                background-color: red;
+                padding: 10px;
+            }
+            .btn-edit-movie{
+                padding: 10px;
+                background-color: deepskyblue;
+            }
+        </style>
         
         
         <!-- movie container-->
-        <div style="display: flex; flex-direction: column; justify-content: center; margin: 100px;">
+        <div style="display: flex; flex-direction: column; justify-content: center; margin: 0 100px 100px;">
             <div style="margin: 40px; display: flex; justify-content:right; " sec:authorize="hasRole('ADMIN')">
                 <ul>
-                    <style>
-                        .btn-add-movie{
-                            background-color: black;
-                            padding: 10px;
-                            margin: 15px;
-                        }
-                    </style>
                     <li><a class="btn-add-movie" th:href="@{/admin/movies/add-movie}">Añadir Pelicula</a></li>
                 </ul>
                   
-            </div>
+            </div> 
 
-            <table border>
+            <table class="movie-table" >
                 <thead>
                     <tr>
                         <th>Portada</th>
@@ -57,9 +83,7 @@
                 <tbody>
                     <tr th:each="movie : ${movies}" th:object="${movie}">
                         <td>
-                           <a th:href="@{/assets/{filename}(filename=*{imagePath})}">
-                              <img width="300px" th:src="@{/assets/{filename}(filename=*{imagePath})}" alt="" >
-                           </a>
+                            <img width="300px" th:src="@{/assets/{filename}(filename=*{imagePath})}" alt="" >
                         </td>
                         <td>
                             <p th:text="*{name}"></p>
@@ -73,19 +97,6 @@
                         <td>
                             <p th:text="*{Trailer}"></p>
                         </td>
-                        <style>
-                            .btn-action-admin{
-                                margin: 10px;
-                            }
-                            .btn-delete{
-                                background-color: red;
-                                padding: 10px;
-                            }
-                            .btn-edit-movie{
-                                padding: 10px;
-                                background-color: deepskyblue;
-                            }
-                        </style>
 
                         <td>
                            <a class="btn-action-admin btn-edit-movie" th:href="@{/admin/movies/update-movie/{id}(id=*{id})}">Editar</a>
