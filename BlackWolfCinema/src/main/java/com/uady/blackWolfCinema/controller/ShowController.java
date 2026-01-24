@@ -63,7 +63,7 @@ public class ShowController {
         // Fetch all movies and cinema rooms for dropdowns
         List<Movie> movies = movieService.findAll();
         theModel.addAttribute("movies", movies);
-        List<CinemaRoom> cinemaRooms = cinemaRoomService.getAllRooms();
+        List<CinemaRoom> cinemaRooms = cinemaRoomService.getAll();
         theModel.addAttribute("cinemaRooms", cinemaRooms);
 
         return "shows/show-form";
@@ -92,7 +92,7 @@ public class ShowController {
                        @RequestParam("cinemaRooms") int cinemaRoomId,
                        @RequestParam("movies") int movieId) {
         // Fetch cinema room and movie based on IDs
-        CinemaRoom cinemaRoom = cinemaRoomService.findRoomById(cinemaRoomId);
+        CinemaRoom cinemaRoom = cinemaRoomService.findById(cinemaRoomId);
         Movie movie = movieService.findById(movieId);
         // Set movie and cinema room for the show
         theShow.setMovie(movie);

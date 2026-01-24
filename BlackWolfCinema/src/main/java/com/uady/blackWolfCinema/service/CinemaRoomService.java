@@ -6,6 +6,6 @@ import java.util.List;
 import com.uady.blackWolfCinema.model.CinemaRoom;
 
 public interface CinemaRoomService {
-    CinemaRoom findRoomById(int theCinemaRoomID);
-    List<CinemaRoom> getAllRooms();
+    CinemaRoom findById(int cinemaRoomId);
+    List<CinemaRoom> getAll();
 }

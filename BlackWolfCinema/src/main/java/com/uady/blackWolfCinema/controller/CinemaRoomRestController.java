@@ -12,7 +12,7 @@ import com.uady.blackWolfCinema.service.CinemaRoomService;
 @RequestMapping("/api")
 public class CinemaRoomRestController {
 
-    private CinemaRoomService cinemaRoomService;
+    private final CinemaRoomService cinemaRoomService;
     //Inject cinema room dao
     @Autowired
     public CinemaRoomRestController(CinemaRoomService theCinemaRoomService){
@@ -22,13 +22,12 @@ public class CinemaRoomRestController {
     //find a Cinema Room by its id 
     @GetMapping("/cinemaRoom/{cinemaRoomID}")
     public CinemaRoom getCinemaRoom(@PathVariable int cinemaRoomID){
-        CinemaRoom theCinemaRoom = cinemaRoomService.findRoomById(cinemaRoomID);
+        CinemaRoom theCinemaRoom = cinemaRoomService.findById(cinemaRoomID);
 
         if(theCinemaRoom ==null){
             throw new RuntimeException("The ID: "+ cinemaRoomID +" does not exist");
         }
-        return
-         theCinemaRoom;
+        return theCinemaRoom;
     }
 
 
