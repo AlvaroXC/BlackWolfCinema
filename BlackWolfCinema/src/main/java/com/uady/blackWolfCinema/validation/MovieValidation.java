@@ -21,7 +21,7 @@ public class MovieValidation {
     private String synopsis;
 
     @NotNull
-    @Min(value = 1, message = "La duración debe ser mayo que cero")
+    @Min(value = 1, message = "La duración debe ser mayo a cero")
     private int duration;
 
     @NotBlank(message = "Este campo no puede ir vacio")

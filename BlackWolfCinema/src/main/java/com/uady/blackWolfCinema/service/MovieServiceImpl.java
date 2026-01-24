@@ -1,9 +1,11 @@
 package com.uady.blackWolfCinema.service;
 
 import java.util.List;
+import java.util.Optional;
+
+import com.uady.blackWolfCinema.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.uady.blackWolfCinema.dao.MovieDao;
 import com.uady.blackWolfCinema.model.Movie;
 import com.uady.blackWolfCinema.validation.MovieValidation;
 
@@ -11,23 +13,31 @@ import com.uady.blackWolfCinema.validation.MovieValidation;
 public class MovieServiceImpl implements MovieService{
 
 
-    private MovieDao movieDao;
-    @Autowired
-    private FileStorageServiceImpl servicio;
+    private final MovieRepository movieRepository;
+    private final FilesStorageService filesStorageService;
 
     @Autowired
-    public MovieServiceImpl(MovieDao movieDao){
-        this.movieDao=movieDao;
+    public MovieServiceImpl(MovieRepository movieRepository, FilesStorageService filesStorageService){
+        this.movieRepository=movieRepository;
+        this.filesStorageService = filesStorageService;
     }
 
     @Override
     public List<Movie> findAll() {
-        return movieDao.getAllMovies();
+        return movieRepository.findAll();
     }
 
     @Override
     public Movie findById(int theId) {
-        return movieDao.findById(theId);
+
+        Optional<Movie> movie = movieRepository.findById(theId);
+        Movie movieToReturn = null;
+
+        if(movie.isPresent()){
+            movieToReturn = movie.get();
+        }
+
+        return movieToReturn;
     }
     
     @Override
@@ -38,20 +48,47 @@ public class MovieServiceImpl implements MovieService{
         movie.setSynopsis(movieValidation.getSynopsis());
         movie.setDuration(movieValidation.getDuration());
         movie.setTrailer(movieValidation.getTrailer());
-        String rutaPortada = servicio.saveFile(movieValidation.getPortada());
-		movie.setImagePath(rutaPortada);
-        movieDao.saveMovie(movie);
-    }
-
-
-    @Override
-    public void deleteMovie(Movie movie) {
-        movieDao.deleteMovie(movie);
+        String imagePath = filesStorageService.saveFile(movieValidation.getPortada());
+		movie.setImagePath(imagePath);
+        movieRepository.save(movie);
     }
 
     @Override
-    public void save(Movie movie) {
-        movieDao.saveMovie(movie);
+    public void deleteById(int theId) {
+        Optional<Movie> result = movieRepository.findById(theId);
+        Movie movie = null;
+        if(result.isEmpty()){
+            return;
+        }
+        movie = result.get();
+        filesStorageService.deleteFile(movie.getImagePath());
+        movieRepository.deleteById(theId);
     }
-    
+
+    @Override
+    public void update(int id, MovieValidation movieValidation) {
+        Optional<Movie> result = movieRepository.findById(id);
+        Movie movie = null;
+
+        if (result.isEmpty()){
+            return;
+        }
+        movie = result.get();
+
+        movie.setName(movieValidation.getName());
+        movie.setSynopsis(movieValidation.getSynopsis());
+        movie.setDuration(movieValidation.getDuration());
+        movie.setTrailer(movieValidation.getTrailer());
+
+        if(!movieValidation.getPortada().isEmpty()) {
+            filesStorageService.deleteFile(movie.getImagePath());
+            String imagePath = filesStorageService.saveFile(movieValidation.getPortada());
+            movie.setImagePath(imagePath);
+        }
+
+        movieRepository.save(movie);
+
+    }
+
+
 }

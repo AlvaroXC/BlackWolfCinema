@@ -29,14 +29,12 @@ public class Movie {
     private int id;
 
     @Column(name = "name")
-    @NotBlank
     private String name;
 
     @Column(name = "image_path")
     private String imagePath;
 
     @Column(name = "synopsis")
-    @NotBlank
     private String synopsis;
 
     @Column(name = "duration_min")
@@ -45,16 +43,13 @@ public class Movie {
     private int duration;
 
     @Column(name = "trailer")
-    @NotBlank
     private String trailer;
 
     @Transient
     private MultipartFile portada;
 
-    
-
-    public Movie(@NotBlank String name, String imagePath, @NotBlank String synopsis, @NotBlank int duration,
-            @NotBlank String trailer, MultipartFile portada) {
+    public Movie( String name, String imagePath, String synopsis, int duration,
+             String trailer, MultipartFile portada) {
         this.name = name;
         this.imagePath = imagePath;
         this.synopsis = synopsis;
@@ -65,8 +60,8 @@ public class Movie {
 
 
 
-    public Movie(int id, @NotBlank String name, String imagePath, @NotBlank String synopsis, @NotBlank int duration,
-            @NotBlank String trailer, MultipartFile portada) {
+    public Movie(int id, String name, String imagePath, String synopsis, int duration,
+             String trailer, MultipartFile portada) {
         this.id = id;
         this.name = name;
         this.imagePath = imagePath;

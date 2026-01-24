@@ -24,11 +24,9 @@ public class Show {
     private int showId;
 
     @Column(name="date")
-    @NotNull(message = "Este campo no puede ir vacio")
     private LocalDate showDate;
 
     @Column(name="hour")
-    @NotNull(message = "Esta campo no puede ir vacio")
     private LocalTime showHour;
 
     @ManyToOne

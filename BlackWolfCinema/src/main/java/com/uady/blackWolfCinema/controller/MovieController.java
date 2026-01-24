@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.uady.blackWolfCinema.model.Movie;
-import com.uady.blackWolfCinema.service.FilesStorageService;
 import com.uady.blackWolfCinema.service.MovieService;
 import com.uady.blackWolfCinema.validation.MovieValidation;
 import jakarta.servlet.http.HttpSession;
@@ -22,13 +21,11 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("")
 public class MovieController {
     
-    private MovieService movieService;
-	private FilesStorageService filesStorageService;
+    private final MovieService movieService;
 
 	@Autowired
-	public MovieController(MovieService movieService, FilesStorageService filesStorageService){
+	public MovieController(MovieService movieService){
 		this.movieService= movieService;
-		this.filesStorageService= filesStorageService;
 	}
 
 
@@ -85,28 +82,15 @@ public class MovieController {
 			model.addAttribute("movie", movieValidation);
 			return "admin/update-movie";
 		}
-		Movie movieToUpdate = movieService.findById(movieId);
-        movieToUpdate.setName(movieValidation.getName());
-		movieToUpdate.setDuration(movieValidation.getDuration());
-		movieToUpdate.setSynopsis(movieValidation.getSynopsis());
-		movieToUpdate.setTrailer(movieValidation.getTrailer());
 
-		if(!movieValidation.getPortada().isEmpty()) {
-			filesStorageService.deleteFile(movieToUpdate.getImagePath());
-			String rutaPortada = filesStorageService.saveFile(movieValidation.getPortada());
-			movieToUpdate.setImagePath(rutaPortada);
-		}
-
-		movieService.save(movieToUpdate);
+		movieService.update(movieId, movieValidation);
 
 		return "redirect:/admin/listMovies";
 	}
 
 	@PostMapping("/admin/movies/delete-movie/{id}")
 	public String delete(@PathVariable("id") int movieId){
-		Movie movieToDelete = movieService.findById(movieId);
-		movieService.deleteMovie(movieToDelete);
-		filesStorageService.deleteFile(movieToDelete.getImagePath());
+		movieService.deleteById(movieId);
 		return "redirect:/admin/listMovies";
 	}
 
