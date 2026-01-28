@@ -5,33 +5,35 @@ import com.uady.blackWolfCinema.dao.TicketDao;
 import com.uady.blackWolfCinema.model.Receipt;
 import com.uady.blackWolfCinema.model.Ticket;
 
+import com.uady.blackWolfCinema.repository.ReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReceiptServiceImpl implements ReceiptService{
 
-    private ReceiptDao receiptDao;
-    private TicketDao ticketDao;
+    private final ReceiptRepository receiptRepository;
+    private final TicketDao ticketDao;
 
     @Autowired
-    public ReceiptServiceImpl(ReceiptDao receiptDao, TicketDao ticketDao){
-        this.receiptDao= receiptDao;
+    public ReceiptServiceImpl(ReceiptRepository receiptRepository, TicketDao ticketDao){
+        this.receiptRepository= receiptRepository;
         this.ticketDao = ticketDao;
     }
 
     @Override
     public List<Receipt> getReceiptsBetweenDates(LocalDate startDate, LocalDate endDate) {
-        return receiptDao.findReceiptsBetween(startDate, endDate);
+        return receiptRepository.findByReceiptDateBetween(startDate, endDate);
     }
 
     @Override
     public void saveReceipt(Receipt receiptToSave){
         // receipt.setUser(userDao.findByUserName(username));
-        receiptDao.save(receiptToSave);
+        receiptRepository.save(receiptToSave);
 
         for(Ticket ticket: receiptToSave.getTickets()){
             ticket.setReceipt(receiptToSave);
@@ -42,7 +44,16 @@ public class ReceiptServiceImpl implements ReceiptService{
 
     @Override
     public Receipt getReceiptById(int id){
-        return receiptDao.findReceiptByid(id);
+        Optional<Receipt> result = receiptRepository.findById(id);
+        Receipt receipt = null;
+
+        if(result.isEmpty()){
+            return null;
+        }
+
+        receipt = result.get();
+
+        return receipt;
     }
 
 }
